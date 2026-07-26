@@ -1,14 +1,28 @@
-name: My First GitHub Action
+name: Python CI
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  say-hello:
+  python-check:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print a message
-        run: echo "Hello from GitHub Actions!"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Show Python Version
+        run: python --version
+
+      - name: Run app
+        run: python app.py
